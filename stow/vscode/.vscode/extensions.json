@@ -1,0 +1,28 @@
+{
+  "recommendations": [
+    // Python Development
+    "ms-python.python",
+    "ms-python.debugpy",
+    "charliermarsh.ruff",
+    "njpwerner.autodocstring",
+    
+    // Code Formatting & Quality
+    "esbenp.prettier-vscode",
+    
+    // File Support
+    "tamasfe.even-better-toml",
+    "bierner.markdown-preview-github-styles",
+    
+    // UI & Workspace
+    "johnpapa.vscode-peacock",
+    "vscode-icons-team.vscode-icons",
+    
+    // Preview & Visualization
+    "ms-vscode.live-server",
+    "tatsuya-yamamoto.vscode-3d-preview"
+  ],
+  "unwantedRecommendations": [
+    "eamodio.gitlens"
+  ]
+}
+

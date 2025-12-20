@@ -1,0 +1,139 @@
+{
+  // Font Configuration (matches Powerlevel10k)
+  "editor.fontFamily": "MesloLGS NF, 'Courier New', monospace",
+  "editor.fontSize": 14,
+  "editor.fontLigatures": true,
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "terminal.integrated.fontSize": 13,
+
+  // Editor Behavior
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.rulers": [80, 120],
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  // Python Configuration
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
+    }
+  },
+
+  // Ruff Configuration (Python linter and formatter)
+  "ruff.enable": true,
+  "ruff.lint.run": "onSave",
+  "ruff.organizeImports": true,
+  "ruff.fixAll": true,
+
+  // File Associations
+  "files.associations": {
+    "*.toml": "toml",
+    ".env*": "dotenv",
+    "*.md": "markdown"
+  },
+
+  // Terminal Configuration
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.scrollback": 10000,
+
+  // Git Configuration
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+
+  // AI Assistant Configuration
+  // GitHub Copilot
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": true,
+    "markdown": true
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+  
+  // Cursor AI - Auto-accept commands (USE WITH CAUTION!)
+  // These settings allow AI to execute commands without confirmation
+  "cursor.general.enableCommandExecution": true,
+  "cursor.chat.autoExecuteCommands": true, // Set to true to auto-accept (NOT RECOMMENDED)
+  
+  // Alternative: Auto-accept only safe commands
+  "cursor.chat.confirmBeforeExecuting": true, // Keep this true for safety
+
+  // Prettier Configuration
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // TOML Configuration
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+
+  // Icons
+  "workbench.iconTheme": "vscode-icons",
+
+  // Auto Docstring
+  "autoDocstring.docstringFormat": "google",
+  "autoDocstring.startOnNewLine": false,
+
+  // Markdown Preview
+  "markdown.preview.breaks": true,
+  "markdown.preview.linkify": true,
+
+  // File Explorer
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+
+  // Search
+  "search.exclude": {
+    "**/.git": true,
+    "**/.venv": true,
+    "**/venv": true,
+    "**/node_modules": true,
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/*.pyc": true,
+    "**/dist": true,
+    "**/build": true
+  },
+
+  // Files to exclude from file watcher
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.venv/**": true,
+    "**/venv/**": true,
+    "**/node_modules/**": true,
+    "**/__pycache__/**": true
+  }
+}
+
