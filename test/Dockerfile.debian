@@ -1,0 +1,45 @@
+# Test environment for dotfiles installation - Debian 12 (Bookworm)
+# Build: docker build -f test/Dockerfile.debian -t dotfiles-test-debian .
+# Run with mounted volume: docker run -it --rm -v "$(pwd):/dotfiles:ro" dotfiles-test-debian
+# Run interactive: docker run -it --rm -v "$(pwd):/dotfiles:ro" dotfiles-test-debian zsh
+
+FROM debian:12
+
+# Prevent interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# Install minimal requirements
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    wget \
+    sudo \
+    locales \
+    rsync \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up locale
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+
+# Create a non-root user for testing
+RUN useradd -m -s /bin/bash testuser && \
+    echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER testuser
+WORKDIR /home/testuser
+
+# Note: Dotfiles will be mounted at /dotfiles when container runs
+# This allows for faster iteration without rebuilding
+
+# Entry point script to copy dotfiles and run installation
+COPY --chown=testuser:testuser test/entrypoint.sh /home/testuser/entrypoint.sh
+RUN chmod +x /home/testuser/entrypoint.sh
+
+ENTRYPOINT ["/home/testuser/entrypoint.sh"]
+CMD ["test"]
+

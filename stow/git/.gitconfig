@@ -1,0 +1,137 @@
+[user]
+	# Set your name and email
+	name = Itzik Ben Shabat
+	email = sitzikbs@gmail.com
+
+[core]
+	editor = nano
+	autocrlf = input
+	# Use custom .gitignore
+	excludesfile = ~/.gitignore_global
+	# Better paging
+	pager = less -FRX
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = false
+
+[push]
+	default = simple
+	autoSetupRemote = true
+
+[fetch]
+	prune = true
+
+[diff]
+	colorMoved = zebra
+	algorithm = histogram
+
+[merge]
+	conflictstyle = diff3
+
+[rerere]
+	enabled = true
+
+[color]
+	ui = auto
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = red
+
+# =============================================================================
+# ALIASES
+# =============================================================================
+
+[alias]
+	# Short status
+	s = status -s
+	
+	# Show verbose output about branches
+	br = branch -v
+	
+	# Show all branches
+	bra = branch -a -v
+	
+	# Pretty log
+	l = log --pretty=format:'%C(yellow)%h%C(reset) - %C(cyan)%an%C(reset) %C(green)(%ar)%C(reset)%C(auto)%d%C(reset)%n  %s' --graph --abbrev-commit
+	
+	# Short log
+	ls = log --pretty=format:'%C(yellow)%h%C(reset) %C(green)%ad%C(reset) %C(cyan)%an%C(reset)%C(auto)%d%C(reset) %s' --date=short --graph --abbrev-commit
+	
+	# Log with full diff
+	ll = log --stat --abbrev-commit
+	
+	# Show last commit
+	last = log -1 HEAD --stat
+	
+	# Amend the last commit
+	amend = commit --amend --no-edit
+	
+	# Undo last commit (keep changes)
+	undo = reset HEAD~1 --soft
+	
+	# Unstage files
+	unstage = reset HEAD --
+	
+	# Discard changes
+	discard = checkout --
+	
+	# Show modified files in last commit
+	dl = "!git ll -1"
+	
+	# Show a diff of the last commit
+	dlc = diff --cached HEAD^
+	
+	# Show all aliases
+	aliases = config --get-regexp alias
+	
+	# Switch to a branch, creating it if necessary
+	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+	
+	# List contributors
+	contributors = shortlog --summary --numbered
+	
+	# Show current branch name
+	current = branch --show-current
+	
+	# Clean merged branches
+	cleanup = "!git branch --merged | grep -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d"
+	
+	# Show file change history
+	filelog = log -u
+	
+	# Show remote URLs
+	remotes = remote -v
+	
+	# Stash with message
+	stash-save = stash save
+	
+	# Show stash list
+	stashes = stash list
+	
+	# Interactive rebase
+	rb = rebase -i
+	
+	# Continue rebase
+	rbc = rebase --continue
+	
+	# Abort rebase
+	rba = rebase --abort
+
+[help]
+	autocorrect = 1

@@ -1,0 +1,44 @@
+# Test environment for dotfiles installation - Ubuntu 24.04 LTS (Latest)
+# Build: docker build -f test/Dockerfile.ubuntu-latest -t dotfiles-test-ubuntu-latest .
+# Run with mounted volume: docker run -it --rm -v "$(pwd):/dotfiles:ro" dotfiles-test-ubuntu-latest
+# Run interactive: docker run -it --rm -v "$(pwd):/dotfiles:ro" dotfiles-test-ubuntu-latest zsh
+
+FROM ubuntu:24.04
+
+# Prevent interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# Install minimal requirements
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    wget \
+    sudo \
+    locales \
+    rsync \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up locale
+RUN locale-gen en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+
+# Create a non-root user for testing
+RUN useradd -m -s /bin/bash testuser && \
+    echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER testuser
+WORKDIR /home/testuser
+
+# Note: Dotfiles will be mounted at /dotfiles when container runs
+# This allows for faster iteration without rebuilding
+
+# Entry point script to copy dotfiles and run installation
+COPY --chown=testuser:testuser test/entrypoint.sh /home/testuser/entrypoint.sh
+RUN chmod +x /home/testuser/entrypoint.sh
+
+ENTRYPOINT ["/home/testuser/entrypoint.sh"]
+CMD ["test"]
+
