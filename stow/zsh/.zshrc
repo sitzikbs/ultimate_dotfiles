@@ -199,6 +199,16 @@ alias gl='git pull'
 # VSCode shell integration
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)" 2>/dev/null
 
+# 1Password: CLI completion + SSH agent (enable in 1Password > Settings > Developer)
+if command -v op &> /dev/null; then
+    eval "$(op completion zsh)"; compdef _op op
+fi
+for _op_sock in "$HOME/.1password/agent.sock" \
+                "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"; do
+    if [[ -S "$_op_sock" ]]; then export SSH_AUTH_SOCK="$_op_sock"; break; fi
+done
+unset _op_sock
+
 # Envman (if installed)
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 

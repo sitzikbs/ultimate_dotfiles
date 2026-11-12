@@ -104,6 +104,9 @@ INSTALL_HERDR=true
 # Install/refresh herdr's Claude Code hook (only if ~/.claude exists)
 HERDR_CLAUDE_INTEGRATION=true
 
+# 1Password desktop app + CLI (op), from 1Password's official repo
+INSTALL_1PASSWORD=true
+
 # =============================================================================
 # FONTS
 # =============================================================================

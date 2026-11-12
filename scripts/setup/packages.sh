@@ -110,6 +110,51 @@ install_cli_tools() {
     if [[ "${INSTALL_HERDR:-false}" == "true" ]]; then
         install_herdr
     fi
+
+    # Install 1Password app + CLI
+    if [[ "${INSTALL_1PASSWORD:-false}" == "true" ]]; then
+        install_1password
+    fi
+}
+
+install_1password() {
+    if command_exists 1password && command_exists op; then
+        log_debug "1Password app and CLI already installed"
+        return 0
+    fi
+
+    log_info "Installing 1Password app and CLI..."
+
+    if is_macos; then
+        brew install --cask 1password 1password-cli || log_warning "Could not install 1Password via Homebrew"
+        return 0
+    fi
+
+    if [[ "$(dpkg --print-architecture)" != "amd64" ]]; then
+        log_warning "1Password apt repo setup here supports amd64 only. See https://support.1password.com/install-linux/"
+        return 0
+    fi
+
+    # Official repo + package-signature policy (https://support.1password.com/install-linux/)
+    if ! grep -rqs "downloads.1password.com" /etc/apt/sources.list /etc/apt/sources.list.d/; then
+        sudo apt-get install -y gpg curl
+        curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+            sudo gpg --dearmor --yes --output /usr/share/keyrings/1password-archive-keyring.gpg
+        echo "deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main" | \
+            sudo tee /etc/apt/sources.list.d/1password.list > /dev/null
+        sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/ /usr/share/debsig/keyrings/AC2D62742012EA22
+        curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
+            sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol > /dev/null
+        curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+            sudo gpg --dearmor --yes --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+        sudo apt-get update -qq
+    fi
+
+    if sudo apt-get install -y 1password 1password-cli; then
+        log_success "1Password installed (enable the SSH agent in Settings > Developer)"
+    else
+        log_warning "Could not install 1Password"
+    fi
 }
 
 install_herdr() {
