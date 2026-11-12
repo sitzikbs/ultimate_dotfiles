@@ -1,0 +1,7 @@
+# 1Password SSH agent: which vaults' SSH keys to offer.
+# https://www.1password.dev/ssh/agent/config/
+[[ssh-keys]]
+vault = "Private"
+
+[[ssh-keys]]
+vault = "Itziks Projects"
