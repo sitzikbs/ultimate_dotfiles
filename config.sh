@@ -98,6 +98,12 @@ INSTALL_LAZYDOCKER=true
 # ripgrep - fast grep alternative
 INSTALL_RIPGREP=true
 
+# herdr - terminal multiplexer for AI coding agents (https://herdr.dev)
+INSTALL_HERDR=true
+
+# Install/refresh herdr's Claude Code hook (only if ~/.claude exists)
+HERDR_CLAUDE_INTEGRATION=true
+
 # =============================================================================
 # FONTS
 # =============================================================================

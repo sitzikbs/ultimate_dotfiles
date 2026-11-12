@@ -66,6 +66,9 @@ setopt share_history       # Reads and writes to the history file.
 # 5. ALIASES and SHELL INTEGRATIONS
 # -----------------------------------------------------------------------------
 
+# Extra completions (herdr, etc.). Must be in fpath before OMZ runs compinit.
+fpath=("$HOME/.local/share/zsh/completions" $fpath)
+
 # This line loads the Oh My Zsh framework. It MUST come AFTER the
 # ZSH_THEME and plugins variables have been set.
 source "$ZSH/oh-my-zsh.sh"

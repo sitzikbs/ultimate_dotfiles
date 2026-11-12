@@ -105,6 +105,49 @@ install_cli_tools() {
     if [[ "$INSTALL_LAZYDOCKER" == "true" ]] && is_linux; then
         install_lazydocker
     fi
+
+    # Install herdr (Linux and macOS, official installer -> ~/.local/bin)
+    if [[ "${INSTALL_HERDR:-false}" == "true" ]]; then
+        install_herdr
+    fi
+}
+
+install_herdr() {
+    local herdr_bin
+    herdr_bin="$(command -v herdr 2>/dev/null || echo "$HOME/.local/bin/herdr")"
+
+    if [[ -x "$herdr_bin" ]]; then
+        log_debug "herdr already installed"
+    else
+        log_info "Installing herdr..."
+        # Official installer: downloads the release binary, verifies SHA-256,
+        # installs to ~/.local/bin. No sudo needed.
+        if ! curl -fsSL https://herdr.dev/install.sh | sh; then
+            log_warning "Could not install herdr. Install manually: https://herdr.dev/docs/install/"
+            return 0
+        fi
+        herdr_bin="$HOME/.local/bin/herdr"
+        log_success "herdr installed"
+    fi
+
+    # zsh completions (picked up via fpath in .zshrc)
+    local comp_dir="$HOME/.local/share/zsh/completions"
+    mkdir -p "$comp_dir"
+    if "$herdr_bin" completion zsh > "$comp_dir/_herdr" 2>/dev/null; then
+        log_success "herdr zsh completions installed"
+    else
+        rm -f "$comp_dir/_herdr"
+        log_warning "Could not generate herdr completions"
+    fi
+
+    # Claude Code integration hook (agent state + session restore)
+    if [[ "${HERDR_CLAUDE_INTEGRATION:-false}" == "true" ]] && [[ -d "${CLAUDE_CONFIG_DIR:-$HOME/.claude}" ]]; then
+        if "$herdr_bin" integration install claude > /dev/null 2>&1; then
+            log_success "herdr Claude Code integration installed"
+        else
+            log_warning "Could not install herdr Claude Code integration"
+        fi
+    fi
 }
 
 install_bat_linux() {

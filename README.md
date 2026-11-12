@@ -144,6 +144,7 @@ dotfiles/
 | **neofetch** | System information display | - |
 | **ncdu** | Disk usage analyzer with ncurses interface | du |
 | **uv** | Blazing fast Python package manager | pip |
+| **herdr** | Terminal multiplexer for AI coding agents (+ Claude Code hook) | - |
 
 ### Configurations
 - **Git** - Aliases, better diffs, sensible defaults
